@@ -16,9 +16,11 @@
     "test": "tsdx test",
     "lint": "tsdx lint src scripts",
     "prepare": "tsdx build",
+    "prepublishOnly": "yarn lint && yarn test",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "generate-code": "ts-node -O '{\"module\": \"commonjs\"}' ./scripts/generate-code"
+    "generate-code": "ts-node -O '{\"module\": \"commonjs\"}' ./scripts/generate-code",
+    "docs": "typedoc --out docs src/index.ts"
   },
   "peerDependencies": {},
   "husky": {
@@ -56,6 +58,8 @@
     "ts-node": "^10.1.0",
     "tsdx": "^0.14.1",
     "tslib": "^2.3.0",
+    "typedoc": "^0.21.4",
+    "typedoc-plugin-markdown": "^3.10.4",
     "typescript": "^4.3.5"
   }
 }
