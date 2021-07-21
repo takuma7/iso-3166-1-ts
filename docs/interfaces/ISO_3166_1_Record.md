@@ -20,7 +20,7 @@
 
 #### Defined in
 
-types/record.ts:4
+[types/record.ts:4](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/types/record.ts#L4)
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 #### Defined in
 
-types/record.ts:5
+[types/record.ts:5](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/types/record.ts#L5)
 
 ___
 
@@ -40,7 +40,7 @@ ___
 
 #### Defined in
 
-types/record.ts:2
+[types/record.ts:2](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/types/record.ts#L2)
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 #### Defined in
 
-types/record.ts:3
+[types/record.ts:3](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/types/record.ts#L3)
 
 ___
 
@@ -60,4 +60,4 @@ ___
 
 #### Defined in
 
-types/record.ts:6
+[types/record.ts:6](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/types/record.ts#L6)

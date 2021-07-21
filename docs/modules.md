@@ -46,7 +46,7 @@ ISO 3166-1 Alpha-2 codes
 
 #### Defined in
 
-generated/iso-3166-1-records.ts:2527
+[generated/iso-3166-1-records.ts:2527](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/generated/iso-3166-1-records.ts#L2527)
 
 ___
 
@@ -58,7 +58,7 @@ ISO 3166-1 Alpha-3 codes
 
 #### Defined in
 
-generated/iso-3166-1-records.ts:2786
+[generated/iso-3166-1-records.ts:2786](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/generated/iso-3166-1-records.ts#L2786)
 
 ___
 
@@ -70,7 +70,7 @@ ISO 3166-1 country code English short names
 
 #### Defined in
 
-generated/iso-3166-1-records.ts:2009
+[generated/iso-3166-1-records.ts:2009](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/generated/iso-3166-1-records.ts#L2009)
 
 ___
 
@@ -82,7 +82,7 @@ ISO 3166-1 country code French short names
 
 #### Defined in
 
-generated/iso-3166-1-records.ts:2268
+[generated/iso-3166-1-records.ts:2268](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/generated/iso-3166-1-records.ts#L2268)
 
 ___
 
@@ -94,7 +94,7 @@ ISO 3166-1 Numeric codes
 
 #### Defined in
 
-generated/iso-3166-1-records.ts:3045
+[generated/iso-3166-1-records.ts:3045](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/generated/iso-3166-1-records.ts#L3045)
 
 ## Variables
 
@@ -106,7 +106,7 @@ ISO 3166-1 Alpha-2 codes
 
 #### Defined in
 
-generated/iso-3166-1-records.ts:2273
+[generated/iso-3166-1-records.ts:2273](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/generated/iso-3166-1-records.ts#L2273)
 
 ___
 
@@ -118,7 +118,7 @@ ISO 3166-1 Alpha-3 codes
 
 #### Defined in
 
-generated/iso-3166-1-records.ts:2532
+[generated/iso-3166-1-records.ts:2532](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/generated/iso-3166-1-records.ts#L2532)
 
 ___
 
@@ -130,7 +130,7 @@ ISO 3166-1 country code English short names
 
 #### Defined in
 
-generated/iso-3166-1-records.ts:1755
+[generated/iso-3166-1-records.ts:1755](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/generated/iso-3166-1-records.ts#L1755)
 
 ___
 
@@ -142,7 +142,7 @@ ISO 3166-1 country code French short names
 
 #### Defined in
 
-generated/iso-3166-1-records.ts:2014
+[generated/iso-3166-1-records.ts:2014](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/generated/iso-3166-1-records.ts#L2014)
 
 ___
 
@@ -154,7 +154,7 @@ ISO 3166-1 Numeric codes
 
 #### Defined in
 
-generated/iso-3166-1-records.ts:2791
+[generated/iso-3166-1-records.ts:2791](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/generated/iso-3166-1-records.ts#L2791)
 
 ___
 
@@ -166,7 +166,7 @@ ISO 3166-1 country code records
 
 #### Defined in
 
-generated/iso-3166-1-records.ts:6
+[generated/iso-3166-1-records.ts:6](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/generated/iso-3166-1-records.ts#L6)
 
 ## Functions
 
@@ -215,7 +215,7 @@ console.log(findByAlpha2('jp'))
 
 #### Defined in
 
-find/find-by-alpha2.ts:33
+[find/find-by-alpha2.ts:33](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/find/find-by-alpha2.ts#L33)
 
 ___
 
@@ -264,7 +264,7 @@ console.log(findByAlpha3('jpn'))
 
 #### Defined in
 
-find/find-by-alpha3.ts:33
+[find/find-by-alpha3.ts:33](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/find/find-by-alpha3.ts#L33)
 
 ___
 
@@ -286,7 +286,7 @@ Finds a record by its English short name
 
 #### Defined in
 
-find/find-by-name.ts:7
+[find/find-by-name.ts:7](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/find/find-by-name.ts#L7)
 
 ___
 
@@ -308,7 +308,7 @@ Finds a record by its French short name
 
 #### Defined in
 
-find/find-by-name-fr.ts:7
+[find/find-by-name-fr.ts:7](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/find/find-by-name-fr.ts#L7)
 
 ___
 
@@ -357,7 +357,7 @@ console.log(findByNumeric(392))
 
 #### Defined in
 
-find/find-by-numeric.ts:33
+[find/find-by-numeric.ts:33](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/find/find-by-numeric.ts#L33)
 
 ___
 
@@ -377,7 +377,7 @@ code is "AF" \| "AL" \| "DZ" \| "AS" \| "AD" \| "AO" \| "AI" \| "AQ" \| "AG" \| 
 
 #### Defined in
 
-is-alpha2-code.ts:3
+[is-alpha2-code.ts:3](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/is-alpha2-code.ts#L3)
 
 ___
 
@@ -397,7 +397,7 @@ code is "AFG" \| "ALB" \| "DZA" \| "ASM" \| "AND" \| "AGO" \| "AIA" \| "ATA" \| 
 
 #### Defined in
 
-is-alpha3-code.ts:3
+[is-alpha3-code.ts:3](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/is-alpha3-code.ts#L3)
 
 ___
 
@@ -417,4 +417,4 @@ code is "004" \| "008" \| "012" \| "016" \| "020" \| "024" \| "660" \| "010" \| 
 
 #### Defined in
 
-is-numeric-code.ts:3
+[is-numeric-code.ts:3](https://github.com/takuma7/iso-3166-1-ts/blob/3d46da0/src/is-numeric-code.ts#L3)
