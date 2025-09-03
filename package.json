@@ -69,7 +69,7 @@
     "@size-limit/preset-small-lib": "^5.0.1",
     "@types/shelljs": "^0.8.9",
     "csv-parse": "^4.16.0",
-    "got": "^11.8.2",
+    "got": "^14.4.8",
     "husky": "^7.0.1",
     "shelljs": "^0.8.4",
     "size-limit": "^5.0.1",
