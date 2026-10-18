@@ -6,7 +6,8 @@ Provides ISO 3166-1 values and types. Country codes are fetched from [`takuma7/i
 
 ## Installation
 
-Requires Node.js 24 or newer.
+Requires Node.js 22 or newer. Supported LTS release lines are tested in CI
+(currently Node.js 22 and 24).
 
 ```sh
 pnpm add iso-3166-1-ts

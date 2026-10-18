@@ -6,10 +6,10 @@
     "src/**/*.test.ts"
   ],
   "compilerOptions": {
-    "target": "ES2024",
+    "target": "ES2023",
     "module": "ESNext",
     "lib": [
-      "ES2024"
+      "ES2023"
     ],
     "moduleResolution": "bundler",
     "strict": true,
@@ -20,6 +20,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true
+    "noEmit": true,
+    "types": []
   }
 }

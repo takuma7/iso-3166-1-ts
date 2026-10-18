@@ -4,7 +4,8 @@ Provides ISO 3166-1 values and types. Country codes are fetched from [`takuma7/i
 
 ## Installation
 
-Requires Node.js 24 or newer.
+Requires Node.js 22 or newer. Supported LTS release lines are tested in CI
+(currently Node.js 22 and 24).
 
 ```sh
 pnpm add iso-3166-1-ts
@@ -77,7 +78,10 @@ For more details, please refer to [the API reference](./docs/modules.md).
 
 Use Node.js 24 (`nvm use`) and pnpm 12.14.0.
 Install pnpm with `npm install --global pnpm@12.14.0`.
-The library and development tools target Node.js 24, the latest LTS release line.
+The library targets Node.js 22, the oldest supported LTS release line. CI runs
+the tests, build, and built entry-point checks on Node.js 22 and 24. Node.js 24
+is the development default. When a new release enters LTS, add it to the CI
+matrix; dropping an older LTS line requires an explicit compatibility change.
 
 ```sh
 pnpm install --frozen-lockfile
@@ -85,6 +89,7 @@ pnpm lint
 pnpm typecheck
 pnpm test --coverage
 pnpm build
+pnpm test:package
 pnpm size
 pnpm run docs
 ```
