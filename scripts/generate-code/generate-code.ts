@@ -1,4 +1,4 @@
-import { ISO_3166_1_Record } from '../../src/types/record';
+import { ISO_3166_1_Record } from '../../packages/iso-3166-1-ts/src/types/record';
 
 export const generateCode = (records: ISO_3166_1_Record[]): string => {
   const names = records.map(({ name }) => name);

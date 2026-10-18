@@ -5,191 +5,148 @@
 [![Node.js >=22](https://img.shields.io/badge/node-%3E%3D22-339933?logo=nodedotjs&logoColor=white)](#nodejs-support)
 [![MIT license](https://img.shields.io/github/license/takuma7/iso-3166-1-ts)](LICENSE)
 
-ISO 3166-1 country codes, country names, lookup functions, and TypeScript types.
-Data is bundled with the package, so lookups work offline without runtime
-dependencies. CommonJS and ESM builds are included.
+ISO 3166-1 country codes and TypeScript types, with the scraper and CSV dataset
+maintained in the same repository. Data updates can be reviewed from source to
+published library in a single pull request.
 
-## Installation
+| Project | Purpose | Documentation |
+| --- | --- | --- |
+| `iso-3166-1-ts` | Country lookups, validation, data, and literal TypeScript types; no runtime dependencies | [Library guide](packages/iso-3166-1-ts/README.md) |
+| `get-country-codes` | Scraper API and CLI that extract ISO's country-code table | [Scraper guide](packages/get-country-codes/README.md) |
+| CSV dataset | Country names and Alpha-2, Alpha-3, and numeric codes | [CSV file](data/iso-3166-1.csv) |
 
-Requires Node.js 22 or newer. Install with your preferred package manager:
+## Use the library
 
 ```sh
 npm install iso-3166-1-ts
-# or
-pnpm add iso-3166-1-ts
-# or
-yarn add iso-3166-1-ts
 ```
 
-## Usage
-
-### Find a country
-
-Look up a country by its two-letter code, three-letter code, or numeric code:
-
 ```ts
-import {
-  findByAlpha2,
-  findByAlpha3,
-  findByNumeric,
-} from 'iso-3166-1-ts';
-
-console.log(findByAlpha2('AF'));
-// {
-//   name: 'Afghanistan',
-//   name_fr: "Afghanistan (l')",
-//   alpha2: 'AF',
-//   alpha3: 'AFG',
-//   numeric: '004',
-// }
-
-// Each lookup below returns the same country record.
-findByAlpha2('af');
-findByAlpha3('AFG');
-findByAlpha3('afg');
-findByNumeric('004');
-findByNumeric(4);
-
-findByAlpha2('ZZ'); // undefined
-```
-
-Alpha-2 and Alpha-3 lookups are case-insensitive. Numeric lookups accept strings
-or numbers; returned records always store numeric codes as three-character
-strings, preserving leading zeroes. All lookup functions return `undefined`
-when no match is found.
-
-You can also look up a country by its exact English or French short name:
-
-```ts
-import { findByName, findByNameFr } from 'iso-3166-1-ts';
-
-findByName('Afghanistan');
-findByNameFr("Afghanistan (l')");
-```
-
-Name lookups are case-sensitive and use the names stored in the bundled data,
-including punctuation and articles.
-
-### Validate a code
-
-Use the type guards to validate strings and narrow their TypeScript types:
-
-```ts
-import {
-  isAlpha2Code,
-  isAlpha3Code,
-  isNumericCode,
-} from 'iso-3166-1-ts';
-
-const input: string = 'US';
-if (isAlpha2Code(input)) {
-  // input is narrowed to Alpha2Code here.
-  console.log(input);
-}
-
-isAlpha2Code('US'); // true
-isAlpha2Code('us'); // false
-isAlpha3Code('USA'); // true
-isNumericCode('004'); // true
-isNumericCode('4'); // false
-```
-
-Type guards require uppercase letter codes and three-character numeric strings.
-
-### Access the data
-
-The package exports the full dataset and readonly arrays of its values:
-
-```ts
-import {
-  records,
-  alpha2Codes,
-  alpha3Codes,
-  numericCodes,
-  names,
-  namesFr,
-} from 'iso-3166-1-ts';
-
-records[0]; // A record with name, name_fr, alpha2, alpha3, and numeric fields.
-alpha2Codes.includes('JP'); // true
-alpha3Codes.includes('JPN'); // true
-numericCodes.includes('392'); // true
-names.includes('Japan'); // true
-namesFr.includes('Japon (le)'); // true
-```
-
-### Use TypeScript types
-
-Literal union types help catch invalid country codes at compile time:
-
-```ts
+import { findByAlpha2, isAlpha2Code } from 'iso-3166-1-ts';
 import type { Alpha2Code } from 'iso-3166-1-ts';
 
-interface User {
-  name: string;
-  country: Alpha2Code;
-}
-
-const user: User = { name: 'Ada', country: 'JP' };
-
-// @ts-expect-error: 'ZZ' is not a valid Alpha-2 code.
-const invalidUser: User = { name: 'Ada', country: 'ZZ' };
+findByAlpha2('jp'); // Japan's country record
+isAlpha2Code('JP'); // true
+const country: Alpha2Code = 'JP';
 ```
 
-Other exported types include `Alpha3Code`, `NumericCode`, `EnglishShortName`,
-`FrenchShortName`, and the `ISO_3166_1_Record` interface. See the
-[API reference](docs/modules.md) for the complete list of exports.
+CommonJS and ESM builds are included. See the [library guide](packages/iso-3166-1-ts/README.md)
+for name and numeric lookups, validation, and the complete data exports.
+
+## Use the scraper
+
+```sh
+npm install --global get-country-codes
+get-country-codes --output ./iso-3166-1.csv
+```
+
+The scraper uses Puppeteer and needs its browser installed. For local workspace
+usage, follow the browser installation step below. Library users do not install
+Puppeteer or download a browser.
+
+## Repository layout
+
+```text
+packages/
+  iso-3166-1-ts/       Library source, build, and tests
+  get-country-codes/   Scraper API and CLI
+data/                Canonical CSV dataset
+scripts/generate-code/ CSV validation and TypeScript generation
+docs/                API reference and migration notes
+```
+
+The two npm packages retain their existing names. This repository consolidates
+`get-country-codes`, `iso-3166-1-csv`, and `iso-3166-1-ts`; their original Git
+histories and licenses are preserved. See the [migration notes](docs/migration.md)
+for legacy repository links and the cutover sequence.
 
 ## Node.js support
 
-The library supports all Node.js LTS release lines that are still maintained.
-Currently, these are Node.js 22 and 24. CI runs the tests, build, type checks,
-and CommonJS/ESM entry-point checks on both release lines.
-
-The build targets Node.js 22, the oldest supported LTS line. New LTS lines should
-be added to the CI matrix when they enter LTS. Dropping an older line requires
-an explicit compatibility change. See the
-[official Node.js release schedule](https://github.com/nodejs/Release/blob/main/schedule.json).
-
-## Data source
-
-Country names and codes are generated from
-[`takuma7/iso-3166-1-csv`](https://github.com/takuma7/iso-3166-1-csv/blob/main/iso-3166-1.csv),
-which collects data from ISO's website. Each package release contains a snapshot
-of that data; it does not fetch updates at runtime.
+Both packages support maintained Node.js LTS release lines, currently 22 and 24.
+The library targets Node.js 22; the scraper requires Node.js 22.12 or newer. CI tests both packages on each release line. Node.js
+24 is the development default in `.nvmrc`. New LTS lines should be added to the
+matrix when they enter LTS; dropping an older line is an explicit compatibility
+change.
 
 ## Development
 
-Use Node.js 24 (the default in `.nvmrc`) and pnpm 12.14.0:
+Use Node.js 24 and pnpm 12.14.0. Run these commands from the repository root:
 
 ```sh
 nvm use
 npm install --global pnpm@12.14.0
 pnpm install --frozen-lockfile
-```
-
-Run the project checks:
-
-```sh
 pnpm lint
 pnpm typecheck
 pnpm test --coverage
 pnpm build
 pnpm test:package
 pnpm size
+pnpm run docs
 ```
 
-Use `pnpm start` to rebuild on source changes. To fetch the latest upstream CSV
-and regenerate the bundled data, run:
+`pnpm start` watches the library source. To run a command for a specific package,
+use `pnpm --filter iso-3166-1-ts <command>` or `pnpm --filter get-country-codes <command>`.
+Shared build and test tools are development dependencies of the private workspace
+root. Each public package declares its own runtime dependencies.
+
+## Update country data
+
+The checked-in [CSV](data/iso-3166-1.csv) is the source for the library. Generation
+and the library checks do not fetch data from the network or launch a browser:
 
 ```sh
-pnpm generate-code
+pnpm generate-code # Regenerate TypeScript from the local CSV
+pnpm data:check    # Validate the CSV and check that generated source matches
 ```
 
-Review the resulting data changes before committing them. To regenerate the API
-reference, run `pnpm run docs`. TypeScript is pinned to the 6.0 release line for
-compatibility with TypeDoc.
+To refresh the CSV from ISO, install the scraper's browser explicitly:
+
+```sh
+pnpm --filter get-country-codes exec puppeteer browsers install chrome
+pnpm data:update
+```
+
+On Linux, install Chrome's system libraries with administrator privileges;
+install Puppeteer's browser as your normal user. The update workflow shows the
+required Ubuntu packages. Browser installation with `--install-deps` requires root.
+
+The `data:update` command validates the scraped candidate before writing the CSV
+and generated TypeScript. Review and commit both files together. Validation
+rejects empty data, missing columns, malformed or duplicate codes, and missing
+countries from the independent [reviewed baseline](data/required-alpha2-codes.json).
+New codes are allowed. Add reviewed new codes to the baseline to protect them
+in future refreshes. An official withdrawal requires an explicit, reviewed edit
+to the baseline; automatic refreshes never change it.
+
+The scraper finds controls by their labels, waits for loaded rows, follows result
+pages, and checks the extracted row count against ISO's reported total. It fails
+on security-verification pages rather than writing partial data. ISO may block
+automated access; a successful fixture test does not guarantee live access.
+Run `pnpm test:browser` after installing Chrome to exercise local browser fixtures.
+CI runs these fixtures separately from the Node.js compatibility checks.
+
+The **Update country data** workflow runs monthly and can be started manually.
+It validates the refreshed data, tests both packages, and proposes a pull request
+containing only the CSV and generated source. It explicitly dispatches the CI
+workflows because PRs created with `GITHUB_TOKEN` do not trigger them automatically.
+The repository must allow GitHub Actions to create pull requests. Updates require
+review and are not automatically merged or published.
+
+## Package releases
+
+The workspace root is private. Build and validate both packages, then pack or
+publish each package independently from its directory:
+
+```sh
+pnpm --filter iso-3166-1-ts pack --pack-destination /tmp
+pnpm --filter get-country-codes pack --pack-destination /tmp
+```
+
+Choose a new version for each package being released before publishing. Library
+versions must be newer than the already published `0.2.2`; the imported scraper
+version is `0.0.2`. No npm release is part of the repository migration.
 
 ## License
 
-[MIT](LICENSE).
+[MIT](LICENSE). Imported projects retain their original license files.

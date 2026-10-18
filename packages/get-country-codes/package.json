@@ -1,0 +1,57 @@
+{
+  "name": "get-country-codes",
+  "version": "0.0.2",
+  "description": "Fetches ISO 3166-1 country codes from https://www.iso.org/obp/ui/#search",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "get-country-codes": "./bin/cli.js"
+  },
+  "scripts": {
+    "start": "tsx src/cli.ts",
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test:package": "node scripts/check-package.mjs",
+    "prepack": "pnpm build",
+    "test:browser": "tsx scripts/check-browser.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/takuma7/iso-3166-1-ts.git",
+    "directory": "packages/get-country-codes"
+  },
+  "keywords": [
+    "countries",
+    "iso-3166",
+    "iso-3166-1",
+    "iso-3166-1-alpha-2",
+    "iso-3166-1-alpha-3",
+    "iso-3166-1-numeric",
+    "ISO 3166",
+    "ISO 3166-1",
+    "ISO 3166-1 Alpha-2",
+    "ISO 3166-1 Alpha-3",
+    "ISO 3166-1 Numeric",
+    "country codes",
+    "codes"
+  ],
+  "author": "takuma7",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/takuma7/iso-3166-1-ts/issues"
+  },
+  "homepage": "https://github.com/takuma7/iso-3166-1-ts/tree/main/packages/get-country-codes#readme",
+  "dependencies": {
+    "csv-stringify": "^6.6.0",
+    "ora": "^8.2.0",
+    "puppeteer": "^25.14.0",
+    "yargs": "^17.7.2"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ]
+}

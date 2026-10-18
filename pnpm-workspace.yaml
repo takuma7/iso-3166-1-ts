@@ -1,2 +1,7 @@
+packages:
+  - packages/*
+
 allowBuilds:
   esbuild@0.28.2: true
+  # Install the browser explicitly only when running the scraper.
+  puppeteer: false

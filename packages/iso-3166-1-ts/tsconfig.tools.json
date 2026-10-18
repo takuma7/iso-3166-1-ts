@@ -2,9 +2,7 @@
   "extends": "./tsconfig.json",
   "include": [
     "src",
-    "scripts",
-    "tsup.config.ts",
-    "vitest.config.mts"
+    "tsup.config.ts"
   ],
   "exclude": [],
   "compilerOptions": {
