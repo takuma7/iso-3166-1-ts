@@ -1,0 +1,55 @@
+name: Update country data
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 1 * *'
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+concurrency:
+  group: update-country-data
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+      - uses: pnpm/action-setup@v6
+        with:
+          cache: true
+      - run: pnpm install --frozen-lockfile
+      - name: Install the scraper browser
+        run: pnpm --filter get-country-codes exec puppeteer browsers install chrome --install-deps
+      - run: pnpm data:update
+      - run: pnpm data:check
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - run: pnpm test:package
+      - run: pnpm size
+      - name: Propose CSV and generated source together
+        id: update
+        uses: peter-evans/create-pull-request@v8
+        with:
+          branch: codex/update-country-data
+          commit-message: Update ISO 3166-1 country data
+          title: Update ISO 3166-1 country data
+          body: |
+            Refreshes the local CSV from ISO and regenerates the TypeScript library.
+            Review the country-name and code changes before merging.
+          add-paths: |
+            data/iso-3166-1.csv
+            packages/iso-3166-1-ts/src/generated/iso-3166-1-records.ts
+      # GITHUB_TOKEN-created PRs do not trigger pull_request workflows automatically.
+      - name: Run compatibility checks on the update branch
+        if: steps.update.outputs.pull-request-operation == 'created' || steps.update.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run main.yml --ref codex/update-country-data
+          gh workflow run size.yml --ref codex/update-country-data

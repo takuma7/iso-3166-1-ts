@@ -5,6 +5,6 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     snapshotFormat: { printBasicPrototype: true },
-    coverage: { include: ['src/**/*.ts'], exclude: ['src/generated/**'] },
+    coverage: { include: ['packages/*/src/**/*.ts'], exclude: ['**/generated/**'] },
   },
 });

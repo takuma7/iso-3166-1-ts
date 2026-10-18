@@ -8,15 +8,16 @@
     "get-country-codes": "./bin/cli.js"
   },
   "scripts": {
-    "start": "NODE_OPTIONS='--trace-warnings --trace-deprecation' ts-node src/cli.ts",
-    "build": "tsc --project ./tsconfig.json",
-    "lint": "eslint --ext .js,.ts .",
-    "lint:fix": "pnpm lint --fix",
-    "prepare": "pnpm lint && pnpm build"
+    "start": "tsx src/cli.ts",
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test:package": "node scripts/check-package.mjs",
+    "prepack": "pnpm build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/takuma7/get-country-codes.git"
+    "url": "git+https://github.com/takuma7/iso-3166-1-ts.git",
+    "directory": "packages/get-country-codes"
   },
   "keywords": [
     "countries",
@@ -36,31 +37,21 @@
   "author": "takuma7",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/takuma7/get-country-codes/issues"
+    "url": "https://github.com/takuma7/iso-3166-1-ts/issues"
   },
-  "homepage": "https://github.com/takuma7/get-country-codes#readme",
+  "homepage": "https://github.com/takuma7/iso-3166-1-ts/tree/main/packages/get-country-codes#readme",
   "dependencies": {
     "csv-stringify": "^6.6.0",
     "ora": "^8.2.0",
-    "puppeteer": "^24.18.0",
+    "puppeteer": "^25.14.0",
     "user-agents": "^1.1.650",
     "yargs": "^17.7.2"
   },
-  "devDependencies": {
-    "@eslint/js": "^9.34.0",
-    "@types/user-agents": "^1.0.4",
-    "@types/yargs": "^17.0.33",
-    "@typescript-eslint/eslint-plugin": "^8.41.0",
-    "@typescript-eslint/parser": "^8.41.0",
-    "eslint": "^9.34.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-prettier": "^5.5.4",
-    "globals": "^16.3.0",
-    "prettier": "^3.6.2",
-    "ts-node": "^10.9.2",
-    "tslib": "^2.8.1",
-    "typescript": "^5.9.2"
-  }
+  "engines": {
+    "node": ">=22.12"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ]
 }

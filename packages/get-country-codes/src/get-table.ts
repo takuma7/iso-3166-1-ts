@@ -13,13 +13,14 @@ export const getTable = async () => {
     })
   )
 
-  process.on('SIGINT', async () => {
+  const handleInterrupt = async () => {
     console.log('\nCtrl+C detected. Closing browser...')
     if (browser) {
       await browser.close()
     }
     process.exit()
-  })
+  }
+  process.once('SIGINT', handleInterrupt)
 
   try {
     const page = await run(
@@ -27,7 +28,7 @@ export const getTable = async () => {
       (async () => {
         const p = await browser.newPage()
         // setting UA to bypass "Verify you are human by completing the action below."
-        p.setUserAgent(new UserAgent().random().toString())
+        await p.setUserAgent(new UserAgent().random().toString())
         await p.goto('https://www.iso.org/obp/ui/#search', {
           waitUntil: 'networkidle2',
         })
@@ -96,6 +97,7 @@ export const getTable = async () => {
     )
     return { headers, rows }
   } finally {
+    process.off('SIGINT', handleInterrupt)
     await browser.close()
   }
 }

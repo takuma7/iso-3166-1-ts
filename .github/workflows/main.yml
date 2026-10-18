@@ -1,5 +1,5 @@
 name: CI
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
 jobs:
@@ -20,6 +20,7 @@ jobs:
           cache: true
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - run: pnpm data:check
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test --coverage

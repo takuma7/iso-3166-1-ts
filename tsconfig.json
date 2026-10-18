@@ -1,26 +1,13 @@
 {
+  "extends": "./tsconfig.base.json",
   "include": [
-    "src"
-  ],
-  "exclude": [
-    "src/**/*.test.ts"
+    "scripts",
+    "vitest.config.mts"
   ],
   "compilerOptions": {
-    "target": "ES2023",
-    "module": "ESNext",
-    "lib": [
-      "ES2023"
-    ],
-    "moduleResolution": "bundler",
-    "strict": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "types": []
+    "types": [
+      "node",
+      "vitest/globals"
+    ]
   }
 }
