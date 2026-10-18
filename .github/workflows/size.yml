@@ -10,7 +10,8 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
-      - name: Install Yarn
-        run: npm install --global yarn@1.22.22 --force
-      - run: yarn install --frozen-lockfile
-      - run: yarn size
+      - uses: pnpm/action-setup@v6
+        with:
+          cache: true
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm size

@@ -5,7 +5,7 @@ Provides ISO 3166-1 values and types. Country codes are fetched from [`takuma7/i
 ## Installation
 
 ```sh
-yarn add iso-3166-1-ts
+pnpm add iso-3166-1-ts
 ```
 
 ## Usage
@@ -73,18 +73,20 @@ For more details, please refer to [the API reference](./docs/modules.md).
 
 ## Development
 
-Use Node.js 24 (`nvm use`) and Yarn 1.22.22. The published library continues to
-support Node.js 10 and newer; the development tools require Node.js 24.
+Use Node.js 24 (`nvm use`) and pnpm 12.14.0.
+Install pnpm with `npm install --global pnpm@12.14.0`.
+The published library continues to support Node.js 10 and newer; the development
+tools require Node.js 24.
 
 ```sh
-yarn install --frozen-lockfile
-yarn lint
-yarn typecheck
-yarn test --coverage
-yarn build
-yarn size
-yarn docs
+pnpm install --frozen-lockfile
+pnpm lint
+pnpm typecheck
+pnpm test --coverage
+pnpm build
+pnpm size
+pnpm run docs
 ```
 
-`yarn generate-code` fetches the current country data and regenerates the source.
+`pnpm generate-code` fetches the current country data and regenerates the source.
 Documentation uses TypeScript 6.0, the newest release supported by TypeDoc.
