@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src",
+    "scripts",
+    "tsup.config.ts",
+    "vitest.config.mts"
+  ],
+  "exclude": [],
+  "compilerOptions": {
+    "types": [
+      "node",
+      "vitest/globals"
+    ]
+  }
+}

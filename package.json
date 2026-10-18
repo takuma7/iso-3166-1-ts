@@ -26,26 +26,23 @@
     "src"
   ],
   "engines": {
-    "node": ">=10"
+    "node": ">=22"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint src scripts",
-    "prepare": "tsdx build",
-    "prepublishOnly": "yarn lint && yarn test",
+    "start": "tsup --watch",
+    "build": "tsup",
+    "test": "vitest run",
+    "lint": "oxlint --deny-warnings src scripts",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.tools.json",
+    "prepare": "pnpm build && husky",
+    "prepublishOnly": "pnpm lint && pnpm typecheck && pnpm test",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "generate-code": "ts-node -O '{\"module\": \"commonjs\"}' ./scripts/generate-code",
-    "docs": "typedoc --out docs src/index.ts"
+    "generate-code": "tsx ./scripts/generate-code/index.ts",
+    "docs": "typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts",
+    "test:package": "node scripts/check-package.mjs"
   },
   "peerDependencies": {},
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
   "prettier": {
     "printWidth": 80,
     "semi": true,
@@ -54,30 +51,32 @@
   },
   "name": "iso-3166-1-ts",
   "author": "takuma7",
-  "module": "dist/iso-3166-1-ts.esm.js",
+  "module": "dist/index.mjs",
   "size-limit": [
     {
-      "path": "dist/iso-3166-1-ts.cjs.production.min.js",
+      "path": "dist/index.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/iso-3166-1-ts.esm.js",
+      "path": "dist/index.mjs",
       "limit": "10 KB"
     }
   ],
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^5.0.1",
-    "@types/shelljs": "^0.8.9",
-    "csv-parse": "^4.16.0",
-    "got": "^11.8.2",
-    "husky": "^7.0.1",
-    "shelljs": "^0.8.4",
-    "size-limit": "^5.0.1",
-    "ts-node": "^10.1.0",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.3.0",
-    "typedoc": "^0.21.4",
-    "typedoc-plugin-markdown": "^3.10.4",
-    "typescript": "^4.3.5"
-  }
+    "@size-limit/preset-small-lib": "^14.2.0",
+    "@types/node": "^24.19.2",
+    "@vitest/coverage-v8": "^5.0.5",
+    "csv-parse": "^7.0.3",
+    "husky": "^9.1.7",
+    "oxlint": "^1.88.0",
+    "size-limit": "^14.2.0",
+    "tsup": "^9.0.0",
+    "tsx": "^4.23.15",
+    "typedoc": "^0.28.20",
+    "typedoc-plugin-markdown": "^4.14.0",
+    "typescript": "~6.0.3",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
+  },
+  "packageManager": "pnpm@12.14.0"
 }
