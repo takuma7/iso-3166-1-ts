@@ -45,6 +45,29 @@ export const parseData = (csv: string): ISO_3166_1_Record[] => {
   });
 };
 
+export const validateSnapshot = (
+  records: ISO_3166_1_Record[], requiredCodes: unknown
+): void => {
+  if (!Array.isArray(requiredCodes) || !requiredCodes.length ||
+      requiredCodes.some(code => typeof code !== 'string' || !/^[A-Z]{2}$/.test(code)) ||
+      new Set(requiredCodes).size !== requiredCodes.length) {
+    throw new Error('Invalid reviewed country-code baseline');
+  }
+  const found = new Set(records.map(record => record.alpha2));
+  const missing = requiredCodes.filter(code => !found.has(code));
+  if (missing.length) {
+    throw new Error(`Incomplete country snapshot: missing ${missing.length} reviewed codes (${missing.join(', ')}). Review removals explicitly in data/required-alpha2-codes.json.`);
+  }
+};
+
+export const readRequiredCodes = async (): Promise<unknown> => JSON.parse(
+  await readFile(new URL('../../data/required-alpha2-codes.json', import.meta.url), 'utf8')
+);
+
 export const getData = async (
   source: string | URL = new URL('../../data/iso-3166-1.csv', import.meta.url)
-): Promise<ISO_3166_1_Record[]> => parseData(await readFile(source, 'utf8'));
+): Promise<ISO_3166_1_Record[]> => {
+  const records = parseData(await readFile(source, 'utf8'));
+  validateSnapshot(records, await readRequiredCodes());
+  return records;
+};

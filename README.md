@@ -93,7 +93,7 @@ root. Each public package declares its own runtime dependencies.
 ## Update country data
 
 The checked-in [CSV](data/iso-3166-1.csv) is the source for the library. Generation
-and ordinary CI checks do not fetch data from the network or launch a browser:
+and the library checks do not fetch data from the network or launch a browser:
 
 ```sh
 pnpm generate-code # Regenerate TypeScript from the local CSV
@@ -107,11 +107,23 @@ pnpm --filter get-country-codes exec puppeteer browsers install chrome
 pnpm data:update
 ```
 
-On Linux, Puppeteer can also install system dependencies with
-`puppeteer browsers install chrome --install-deps`. The `data:update` command
-scrapes ISO and regenerates the library. Review and commit both the CSV and
-`packages/iso-3166-1-ts/src/generated/iso-3166-1-records.ts` together. Validation
-rejects empty data, missing columns, malformed codes, and duplicate codes.
+On Linux, install Chrome's system libraries with administrator privileges;
+install Puppeteer's browser as your normal user. The update workflow shows the
+required Ubuntu packages. Browser installation with `--install-deps` requires root.
+
+The `data:update` command validates the scraped candidate before writing the CSV
+and generated TypeScript. Review and commit both files together. Validation
+rejects empty data, missing columns, malformed or duplicate codes, and missing
+countries from the independent [reviewed baseline](data/required-alpha2-codes.json).
+New codes are allowed. An official withdrawal requires an explicit, reviewed edit
+to the baseline; automatic refreshes never change it.
+
+The scraper finds controls by their labels, waits for loaded rows, follows result
+pages, and checks the extracted row count against ISO's reported total. It fails
+on security-verification pages rather than writing partial data. ISO may block
+automated access; a successful fixture test does not guarantee live access.
+Run `pnpm test:browser` after installing Chrome to exercise local browser fixtures.
+CI runs these fixtures separately from the Node.js compatibility checks.
 
 The **Update country data** workflow runs monthly and can be started manually.
 It validates the refreshed data, tests both packages, and proposes a pull request

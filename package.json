@@ -19,8 +19,8 @@
     "docs": "pnpm --filter iso-3166-1-ts run docs",
     "generate-code": "tsx scripts/generate-code/index.ts",
     "data:check": "tsx scripts/generate-code/index.ts --check",
-    "data:scrape": "pnpm --filter get-country-codes start --output ../../data/iso-3166-1.csv",
-    "data:update": "pnpm data:scrape && pnpm generate-code"
+    "data:update": "tsx scripts/update-data.ts",
+    "test:browser": "pnpm --filter get-country-codes test:browser"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^14.2.0",
@@ -37,8 +37,8 @@
     "typescript": "~6.0.3",
     "vite": "^8.3.4",
     "vitest": "^5.0.5",
-    "@types/user-agents": "^1.0.4",
-    "@types/yargs": "^17.0.33"
+    "@types/yargs": "^17.0.33",
+    "csv-stringify": "^6.6.0"
   },
   "type": "module"
 }

@@ -30,7 +30,7 @@ Node.js 22.12 or newer.
 ## Workspace development
 
 The workspace skips Puppeteer's automatic browser download so library development
-and offline tests do not require a browser. Install it explicitly before scraping:
+and unit tests do not require a browser. Install it explicitly before scraping:
 
 ```sh
 pnpm --filter get-country-codes exec puppeteer browsers install chrome
@@ -45,3 +45,13 @@ is available without running the scraper.
 ## License
 
 [MIT](LICENSE).
+
+The scraper selects country search by its label, normalizes columns by header,
+and waits for complete result pages. It verifies row formats, uniqueness, and the
+reported total before returning data. Security-verification pages, missing counts,
+and incomplete pagination cause an error. ISO may restrict automated access;
+the browser fixtures test extraction behavior without contacting ISO.
+
+Use `pnpm data:update` at the workspace root for maintained snapshots: it also
+checks the reviewed country-code baseline before modifying the CSV or library.
+The standalone CLI validates the extracted table but has no historical baseline.

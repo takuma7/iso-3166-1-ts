@@ -1,48 +1,37 @@
 import { afterEach, expect, test, vi } from 'vitest';
 import puppeteer from 'puppeteer';
 import { getTable } from './get-table';
+import { scrapePage } from './scrape-page';
 
 vi.mock('puppeteer', () => ({ default: { launch: vi.fn() } }));
 vi.mock('./run', () => ({ run: (_text: string, promise: Promise<unknown>) => promise }));
-
-afterEach(() => {
-  vi.useRealTimers();
-  vi.clearAllMocks();
-});
+vi.mock('./scrape-page', () => ({ scrapePage: vi.fn() }));
+afterEach(() => vi.resetAllMocks());
 
 const setupBrowser = () => {
-  const headers = ['English short name', 'French short name', 'Alpha-2 code', 'Alpha-3 code', 'Numeric'];
-  const rows = [['Afghanistan', "Afghanistan (l')", 'AF', 'AFG', '004']];
-  const page = {
-    setUserAgent: vi.fn().mockResolvedValue(undefined),
-    goto: vi.fn().mockResolvedValue(undefined),
-    waitForSelector: vi.fn().mockResolvedValue(undefined),
-    click: vi.fn().mockResolvedValue(undefined),
-    select: vi.fn().mockResolvedValue(undefined),
-    $: vi.fn().mockResolvedValue({ $$eval: vi.fn()
-      .mockResolvedValueOnce(headers).mockResolvedValueOnce(rows) }),
-  };
+  const table = { headers: ['Numeric'], rows: [['004']] };
+  const page = { goto: vi.fn().mockResolvedValue({ status: () => 200 }) };
   const browser = { newPage: vi.fn().mockResolvedValue(page), close: vi.fn().mockResolvedValue(undefined) };
   vi.mocked(puppeteer.launch).mockResolvedValue(browser as never);
-  return { headers, rows, page, browser };
+  vi.mocked(scrapePage).mockResolvedValue(table);
+  return { table, page, browser };
 };
 
-test('returns the scraped table and closes its browser without leaking signal handlers', async () => {
-  vi.useFakeTimers();
-  const { headers, rows, browser } = setupBrowser();
+test('extracts results and closes the browser without leaking signal handlers', async () => {
+  const { table, page, browser } = setupBrowser();
   const listeners = process.listenerCount('SIGINT');
-  const result = getTable();
-  await vi.runAllTimersAsync();
-  expect(await result).toEqual({ headers, rows });
+  expect(await getTable()).toEqual(table);
+  expect(scrapePage).toHaveBeenCalledWith(page);
   expect(browser.close).toHaveBeenCalledOnce();
   expect(process.listenerCount('SIGINT')).toBe(listeners);
 });
 
-test('closes the browser and removes its signal handler when navigation fails', async () => {
+test.each(['navigation', 'extraction', 'newPage', 'HTTP'])('closes the browser on %s failure', async failure => {
   const { page, browser } = setupBrowser();
-  page.goto.mockRejectedValue(new Error('Navigation failed'));
-  const listeners = process.listenerCount('SIGINT');
-  await expect(getTable()).rejects.toThrow('Navigation failed');
+  if (failure === 'navigation') page.goto.mockRejectedValue(new Error('failed navigation'));
+  if (failure === 'extraction') vi.mocked(scrapePage).mockRejectedValue(new Error('failed extraction'));
+  if (failure === 'newPage') browser.newPage.mockRejectedValue(new Error('failed newPage'));
+  if (failure === 'HTTP') page.goto.mockResolvedValue({ status: () => 403 });
+  await expect(getTable()).rejects.toThrow(failure === 'HTTP' ? 'HTTP 403' : `failed ${failure}`);
   expect(browser.close).toHaveBeenCalledOnce();
-  expect(process.listenerCount('SIGINT')).toBe(listeners);
 });

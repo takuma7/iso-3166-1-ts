@@ -12,7 +12,8 @@
     "build": "tsup",
     "typecheck": "tsc --noEmit",
     "test:package": "node scripts/check-package.mjs",
-    "prepack": "pnpm build"
+    "prepack": "pnpm build",
+    "test:browser": "tsx scripts/check-browser.ts"
   },
   "repository": {
     "type": "git",
@@ -44,7 +45,6 @@
     "csv-stringify": "^6.6.0",
     "ora": "^8.2.0",
     "puppeteer": "^25.14.0",
-    "user-agents": "^1.1.650",
     "yargs": "^17.7.2"
   },
   "engines": {

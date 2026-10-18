@@ -19,7 +19,8 @@ Original license files are retained in both imported directories.
 
 1. Merge the consolidation PR and confirm the Node.js 22/24 CI matrix passes.
 2. Run the **Update country data** workflow manually to verify live ISO access
-   and browser installation. Ordinary CI uses local data and mocked scraper tests.
+   and browser installation. CI uses local data, unit tests, and real Chrome
+   fixtures; it does not query ISO.
 3. Merge the legacy repository transition PRs. Disable the old scraper workflow
    that copies CSV into another repository, and point both old READMEs here.
 4. Keep legacy repositories readable during the transition. Their existing raw
@@ -31,7 +32,10 @@ Original license files are retained in both imported directories.
    does not publish a package.
 
 The library generator reads the local CSV and validates required columns, code
-formats, uniqueness, and non-empty data before writing generated source. CI
+formats, uniqueness, non-empty data, and the independent reviewed country-code
+baseline before writing generated source. A refresh validates its candidate
+before changing either artifact. Removing a baseline country requires an explicit
+reviewed edit to `data/required-alpha2-codes.json`. CI
 fails when that source and the CSV disagree. The imported snapshot updates three
 country-name records (Bahamas, Netherlands, and Türkiye) from the older library
 data. Exact-name lookups and name literal types reflect those changes.
@@ -43,3 +47,8 @@ are explicitly dispatched on the update branch to avoid `GITHUB_TOKEN` event
 suppression. The workflow does not merge or publish automatically.
 
 Legacy repositories are not deleted or archived as part of this migration.
+
+The live ISO probe during this change reached its security-verification page.
+Current production DOM extraction remains unverified until live access succeeds.
+The scraper detects blocking and fails without refreshing the checked-in data.
+Do not retire the existing refresh process until the live cutover check passes.

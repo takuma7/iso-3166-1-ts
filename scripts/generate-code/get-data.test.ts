@@ -44,3 +44,17 @@ test('local CSV matches the generated library source', async () => {
   const generated = await readFile(new URL('../../packages/iso-3166-1-ts/src/generated/iso-3166-1-records.ts', import.meta.url), 'utf8');
   expect(generateCode(records)).toBe(generated);
 });
+
+test('rejects a valid but truncated CSV against the independent baseline', async () => {
+  const { validateSnapshot, readRequiredCodes } = await import('./get-data');
+  expect(() => validateSnapshot(parseData(header + afghanistan), ['AF', 'JP'])).toThrow('missing 1 reviewed codes (JP)');
+  expect(() => validateSnapshot(parseData(header + afghanistan), ['AF'])).not.toThrow();
+  const threeCountries = parseData(header + afghanistan + 'Japan,Japon,JP,JPN,392\nUnited States,États-Unis,US,USA,840\n');
+  const required = await readRequiredCodes();
+  expect(() => validateSnapshot(threeCountries, required)).toThrow('Incomplete country snapshot');
+});
+
+test.each([null, [], ['AF', 'AF'], ['bad'], [42]])('rejects invalid baselines: %j', async baseline => {
+  const { validateSnapshot } = await import('./get-data');
+  expect(() => validateSnapshot(parseData(header + afghanistan), baseline)).toThrow('Invalid reviewed');
+});
