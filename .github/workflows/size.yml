@@ -1,12 +1,16 @@
 name: size
 on: [pull_request]
+permissions:
+  contents: read
 jobs:
   size:
     runs-on: ubuntu-latest
-    env:
-      CI_JOB_NUMBER: 1
     steps:
-      - uses: actions/checkout@v1
-      - uses: andresz1/size-limit-action@v1
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          node-version-file: .nvmrc
+      - name: Install Yarn
+        run: npm install --global yarn@1.22.22 --force
+      - run: yarn install --frozen-lockfile
+      - run: yarn size

@@ -71,3 +71,20 @@ const u: User = { name: 'foo', country: 'whatever' } // doesn't compile
 For more details, please refer to [the API reference](./docs/modules.md).
 
 
+## Development
+
+Use Node.js 24 (`nvm use`) and Yarn 1.22.22. The published library continues to
+support Node.js 10 and newer; the development tools require Node.js 24.
+
+```sh
+yarn install --frozen-lockfile
+yarn lint
+yarn typecheck
+yarn test --coverage
+yarn build
+yarn size
+yarn docs
+```
+
+`yarn generate-code` fetches the current country data and regenerates the source.
+Documentation uses TypeScript 6.0, the newest release supported by TypeDoc.
