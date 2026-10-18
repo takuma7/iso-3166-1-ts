@@ -4,6 +4,8 @@ Provides ISO 3166-1 values and types. Country codes are fetched from [`takuma7/i
 
 ## Installation
 
+Requires Node.js 24 or newer.
+
 ```sh
 pnpm add iso-3166-1-ts
 ```
@@ -75,8 +77,7 @@ For more details, please refer to [the API reference](./docs/modules.md).
 
 Use Node.js 24 (`nvm use`) and pnpm 12.14.0.
 Install pnpm with `npm install --global pnpm@12.14.0`.
-The published library continues to support Node.js 10 and newer; the development
-tools require Node.js 24.
+The library and development tools target Node.js 24, the latest LTS release line.
 
 ```sh
 pnpm install --frozen-lockfile

@@ -6,10 +6,10 @@
     "src/**/*.test.ts"
   ],
   "compilerOptions": {
-    "target": "ES2018",
+    "target": "ES2024",
     "module": "ESNext",
     "lib": [
-      "ES2018"
+      "ES2024"
     ],
     "moduleResolution": "bundler",
     "strict": true,

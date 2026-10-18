@@ -6,6 +6,8 @@ Provides ISO 3166-1 values and types. Country codes are fetched from [`takuma7/i
 
 ## Installation
 
+Requires Node.js 24 or newer.
+
 ```sh
 pnpm add iso-3166-1-ts
 ```
