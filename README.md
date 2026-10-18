@@ -115,7 +115,8 @@ The `data:update` command validates the scraped candidate before writing the CSV
 and generated TypeScript. Review and commit both files together. Validation
 rejects empty data, missing columns, malformed or duplicate codes, and missing
 countries from the independent [reviewed baseline](data/required-alpha2-codes.json).
-New codes are allowed. An official withdrawal requires an explicit, reviewed edit
+New codes are allowed. Add reviewed new codes to the baseline to protect them
+in future refreshes. An official withdrawal requires an explicit, reviewed edit
 to the baseline; automatic refreshes never change it.
 
 The scraper finds controls by their labels, waits for loaded rows, follows result

@@ -53,16 +53,28 @@ export function readCountryPage(): PageSnapshot {
     for (const match of metadata.matchAll(pattern)) totals.add(Number(match[1]));
   }
   let pageSize: PageSnapshot['pageSize'] = null;
-  Array.from(document.querySelectorAll('select')).forEach((select, index) => {
-    if (select.options.length < 2) return;
+  const selects = Array.from(document.querySelectorAll('select'));
+  const labeled = selects.filter(select => {
+    const label = [select.getAttribute('aria-label'), select.title,
+      ...Array.from(select.labels || []).map(element => element.textContent),
+      ...(select.getAttribute('aria-labelledby') || '').split(/\s+/).map(id => document.getElementById(id)?.textContent),
+    ].join(' ');
+    return /(?:results?|rows?)\s+per\s+page|page\s+size/i.test(label);
+  });
+  const candidates = labeled.length ? labeled : selects.filter(select =>
+    select.options.length > 1 && Array.from(select.options).every(option =>
+      /^(?:all|\d+(?:\s+(?:results?|rows?))?)$/i.test(option.textContent?.trim() || '')));
+  // An unrelated year/limit selector must not control country pagination.
+  if (candidates.length === 1) {
+    const select = candidates[0];
     for (const option of select.options) {
       const label = option.textContent?.trim() || '';
       const size = /^all$/i.test(label) ? Number.MAX_SAFE_INTEGER : /^\d+(?:\s+(?:results?|rows?))?$/i.test(label) ? Number.parseInt(label, 10) : 0;
       if (size > 0 && !option.disabled && (!pageSize || size > pageSize.size)) {
-        pageSize = { index, value: option.value, size, selected: option.selected };
+        pageSize = { index: selects.indexOf(select), value: option.value, size, selected: option.selected };
       }
     }
-  });
+  }
   return {
     blocked, table, total: totals.size === 1 ? [...totals][0] : null,
     start: range ? Number(range[1]) : null, end: range ? Number(range[2]) : null,
